@@ -1,17 +1,24 @@
-import React from "react";
 import { Image, Text, View } from "react-native";
 import Star from "../../assets/Star.svg";
 import Wishlist from "../../assets/wishlist.svg";
 import Playbtn from "../../assets/playbtn.svg";
 
-const VideoCard = () => {
+const VideoCard = ({ ImageURL, title }) => {
   return (
-    <View style={{ height: 240 }}>
+    <View style={{ height: 230 }}>
       <View style={{ position: "relative" }}>
         <Image
-          source={require("../../assets/VideoZeroth.png")}
-          height={180}
-          style={{ width: "100%", height: 180, borderRadius: 10 }}
+          source={
+            ImageURL
+              ? { uri: ImageURL }
+              : require("../../assets/VideoZeroth.png")
+          }
+          style={{
+            width: "100%",
+            height: 180,
+            borderRadius: 10,
+            resizeMode: "cover",
+          }}
         />
         <View
           style={{
@@ -63,16 +70,20 @@ const VideoCard = () => {
         </View>
       </View>
       <View style={{ marginLeft: 5 }}>
-        <Text style={{ fontWeight: "semibold", marginBottom: 5, marginTop: 5 }}>
-          Video Title
+        <Text
+          style={{ fontWeight: "400", marginTop: 5 }}
+          numberOfLines={2}
+          ellipsizeMode="tail"
+        >
+          {title}
         </Text>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+        {/* <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
           <Image
             source={require("../../assets/userImage.png")}
             style={{ width: 24, height: 24, borderRadius: 50 }}
           />
           <Text style={{ color: "#A9A9A9" }}>By xyz</Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );

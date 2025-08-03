@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, Dimensions } from "react-native";
 import Bg from "../../assets/Bg.svg";
 import Home from "../../assets/Home.svg";
@@ -11,30 +11,39 @@ import User from "../../assets/user.svg";
 import UserSolid from "../../assets/user-solid.svg";
 import Create from "../../assets/create.svg";
 import { useNavigation } from "@react-navigation/native";
+import { getActiveRouteName } from "../Hooks/navigation";
 
 const { width } = Dimensions.get("window");
 
 const NavBar = () => {
   const navigation = useNavigation();
-  const [activeTab, setActiveTab] = useState("home");
+  const [activeTab, setActiveTab] = useState(routeName);
+  const routeName = getActiveRouteName(navigation.getState());
 
   const tabs = [
-    { name: "home", icon: Home, iconActive: HomeSolid, screen: "Home" },
+    { name: "Home", icon: Home, iconActive: HomeSolid, screen: "Home" },
     {
-      name: "wishlist",
+      name: "Discover",
       icon: Wishlist,
       iconActive: WishlistSolid,
       screen: "Discover",
     },
     {
-      name: "notification",
+      name: "Notifications",
       icon: Notification,
       iconActive: NotificationSolid,
       screen: "Notifications",
     },
-    { name: "user", icon: User, iconActive: UserSolid, screen: "ProfilePage" },
+    {
+      name: "ProfilePage",
+      icon: User,
+      iconActive: UserSolid,
+      screen: "ProfilePage",
+    },
   ];
-
+  useEffect(() => {
+    setActiveTab(routeName);
+  }, [routeName]);
   return (
     <View style={{ width: "100%", backgroundColor: "#F1F1F1" }}>
       <Bg width={width} height={100} preserveAspectRatio="xMidYMid slice" />
@@ -56,7 +65,6 @@ const NavBar = () => {
           width={60}
           onPress={() => {
             navigation.navigate("CreateRecipe");
-            setActiveTab("CreateRecipe");
           }}
         />
       </View>
@@ -81,7 +89,6 @@ const NavBar = () => {
             <TouchableOpacity
               key={tab.name}
               onPress={() => {
-                setActiveTab(tab.name);
                 if (tab.screen) navigation.navigate(tab.screen);
               }}
               style={[
@@ -91,8 +98,8 @@ const NavBar = () => {
                   alignItems: "center",
                   justifyContent: "center",
                 },
-                tab.name === "wishlist" ? { paddingRight: 50 } : {},
-                tab.name === "notification" ? { paddingLeft: 50 } : {},
+                tab.name === "Discover" ? { paddingRight: 50 } : {},
+                tab.name === "Notification" ? { paddingLeft: 50 } : {},
               ]}
             >
               <IconComponent />

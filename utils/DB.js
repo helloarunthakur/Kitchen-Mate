@@ -1,0 +1,16 @@
+export const categoriesList = [
+  "Breakfast",
+  "Chicken",
+  "Vegan",
+  "Vegetarian",
+  "Dessert",
+  "Goat",
+  "Lamb",
+  "Miscellaneous",
+  "Pasta",
+  "Pork",
+  "Seafood",
+  "Side",
+  "Starter",
+  "Beef",
+];

@@ -6,19 +6,20 @@ import {
   StyleSheet,
   ScrollView,
   StatusBar,
-  Image,
 } from "react-native";
 import VideoCard from "../../components/VideoCard";
 import Heading from "../../components/Heading";
-import { recipeCategories } from "../../../utils/Fake";
 import CategoryCard from "../../components/CategoryCard";
 import RecentRecipeCard from "../../components/RecentRecipeCard";
 import CreatorCard from "../../components/CreatorCard";
 import Layout from "../../components/Layout";
 import Search from "../../../assets/search.svg";
+import { categoriesList } from "../../../utils/DB";
+import TrendingNow from "../../components/TrendingNow";
+import CategorySection from "../../components/CategorySection";
+import { CreatorsFakeDB } from "../../../utils/Creators";
 
 const Home = () => {
-  const [activeCategory, setActiveCategory] = React.useState("Breakfast");
   return (
     <Layout>
       <View style={styles.container}>
@@ -53,65 +54,13 @@ const Home = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Heading title="Trending now 🔥" SeeAllVisible={true} />
           <View>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{
-                gap: 16,
-                marginTop: 10,
-                height: 245,
-              }}
-            >
-              <View style={{ width: 280 }}>
-                <VideoCard />
-              </View>
-              <View style={{ width: 280 }}>
-                <VideoCard />
-              </View>
-              <View style={{ width: 280 }}>
-                <VideoCard />
-              </View>
-            </ScrollView>
+            <TrendingNow />
           </View>
 
           <Heading title="Popular category" SeeAllVisible={false} />
-          <View style={{ marginTop: 10, marginBottom: 10 }}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{
-                gap: 25,
-                marginTop: 10,
-                alignItems: "center",
-              }}
-            >
-              {recipeCategories.map((item, index) => (
-                <Text
-                  style={[
-                    { color: "#E23E3E" },
-                    item.name == activeCategory && styles.activeCategory,
-                  ]}
-                  key={index * 8 + item.name}
-                  onPress={() => setActiveCategory(item.name)}
-                >
-                  {item.name}
-                </Text>
-              ))}
-            </ScrollView>
-          </View>
+          <CategorySection />
 
-          <View>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingTop: 60, gap: 16 }}
-            >
-              <CategoryCard />
-              <CategoryCard />
-              <CategoryCard />
-            </ScrollView>
-          </View>
-          <View>
+          {/* <View>
             <Heading title="Recent recipes" SeeAllVisible={true} />
             <ScrollView
               horizontal
@@ -123,18 +72,23 @@ const Home = () => {
               <RecentRecipeCard />
               <RecentRecipeCard />
             </ScrollView>
-          </View>
-          <View style={{ marginBottom: 30 }}>
+          </View> */}
+
+          <View style={{ marginBottom: 30, marginTop: 10 }}>
             <Heading title="Popular creator" SeeAllVisible={true} />
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ gap: 16, marginTop: 10 }}
+              contentContainerStyle={{ gap: 16, marginTop: 16 }}
             >
-              <CreatorCard />
-              <CreatorCard />
-              <CreatorCard />
-              <CreatorCard />
+              {CreatorsFakeDB.slice(0, 10).map((creator) => (
+                <CreatorCard
+                  key={creator.id}
+                  title={creator.name}
+                  ImageURL={creator.image}
+                  UserId={creator.id}
+                />
+              ))}
             </ScrollView>
           </View>
         </ScrollView>
@@ -154,16 +108,6 @@ const styles = StyleSheet.create({
   },
   search: {
     flexGrow: 1,
-  },
-  activeCategory: {
-    color: "white",
-    paddingLeft: 12,
-    paddingRight: 12,
-    paddingTop: 8,
-    paddingBottom: 8,
-    borderRadius: 10,
-    fontWeight: "bold",
-    backgroundColor: "#E23E3E",
   },
   whislist: {
     height: 32,

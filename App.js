@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import Splash from "./screens/components/Splash";
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./screens/pages/Home/Home";
 import NavBar from "./screens/components/NavBar";
@@ -13,21 +13,19 @@ import ProfilePage from "./screens/pages/Profile";
 import CreateRecipe from "./screens/pages/CreateRecipe";
 import RecipeDetail from "./screens/pages/RecipeDetail";
 import { getActiveRouteName, navigationRef } from "./screens/Hooks/navigation";
+import WelcomeScreen from "./screens/components/WelcomeScreen";
 
 export default function App() {
-  const [splashScreen, setSplashScreen] = useState(true);
-  const [currentRouteName, setCurrentRouteName] = useState("Home");
+  const [currentRouteName, setCurrentRouteName] = useState("WelcomeScreen");
   const Stack = createNativeStackNavigator();
-  const hideNavBar = ["RecipeDetail", "CreateRecipe"];
+  const hideNavBar = [
+    "RecipeDetail",
+    "CreateRecipe",
+    "WelcomeScreen",
+    "SplashScreen",
+  ];
   const shouldHideNavbar = hideNavBar.includes(currentRouteName);
-  useEffect(() => {
-    setTimeout(() => {
-      setSplashScreen(false);
-    }, 2000);
-  }, []);
-  if (splashScreen) {
-    return <Splash />;
-  }
+
   return (
     <NavigationContainer
       ref={navigationRef}
@@ -39,6 +37,20 @@ export default function App() {
       }}
     >
       <Stack.Navigator>
+        <Stack.Screen
+          name="SplashScreen"
+          component={Splash}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="WelcomeScreen"
+          component={WelcomeScreen}
+          options={{
+            header: () => null,
+          }}
+        />
         <Stack.Screen
           name="Home"
           component={Home}
@@ -82,7 +94,11 @@ export default function App() {
           name="RecipeDetail"
           component={RecipeDetail}
           options={{
-            header: () => null,
+            title: "",
+            headerStyle: {
+              backgroundColor: "#F1F1F1",
+            },
+            headerShadowVisible: false,
           }}
         />
       </Stack.Navigator>

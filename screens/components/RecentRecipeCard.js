@@ -1,9 +1,14 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 const RecentRecipeCard = () => {
+  const navigatation = useNavigation();
+  const handlePress = () => {
+    navigatation.navigate("RecipeDetail");
+  };
   return (
-    <View style={{ width: 125 }}>
+    <TouchableOpacity style={{ width: 125 }} onPress={handlePress}>
       <View
         style={{
           height: 125,
@@ -18,7 +23,7 @@ const RecentRecipeCard = () => {
       <Text style={{ fontSize: 12, color: "#C1C1C1", marginLeft: 2 }}>
         By Adrianna curl
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

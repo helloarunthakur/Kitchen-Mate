@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,10 +11,21 @@ import Layout from "../../components/Layout";
 import ThreeDot from "../../../assets/3dot.svg";
 import RecipeCard from "../../components/RecipeCard";
 import VideoCard from "../../components/VideoCard";
+import { useRoute } from "@react-navigation/native";
+import { CreatorsFakeDB } from "../../../utils/Creators";
 
 const ProfilePage = () => {
   const [currentTab, setCurrentTab] = React.useState("Recipe");
   const menuItems = ["Video", "Recipe"];
+  const [profile, setProfile] = React.useState({});
+  const route = useRoute();
+  const userId = route.params?.userId;
+  useEffect(() => {
+    const user = CreatorsFakeDB.find((user) => user.id == userId);
+    if (user) {
+      setProfile(user);
+    }
+  }, [userId]);
   return (
     <Layout>
       <View style={styles.container}>
@@ -42,14 +54,32 @@ const ProfilePage = () => {
               marginRight: 10,
             }}
           >
-            <View
-              style={{
-                height: 100,
-                width: 100,
-                borderRadius: 100,
-                backgroundColor: "#C1C1C1",
-              }}
-            />
+            {!profile.name && (
+              <View
+                style={{
+                  height: 100,
+                  width: 100,
+                  borderRadius: 100,
+                  backgroundColor: "#C1C1C1",
+                }}
+              />
+            )}
+            {profile.name && (
+              <Image
+                style={{
+                  height: 100,
+                  width: 100,
+                  borderRadius: 100,
+                  backgroundColor: "#D9D9D9",
+                }}
+                source={{
+                  uri: `https://api.dicebear.com/6.x/adventurer/png?seed=${encodeURIComponent(
+                    profile.name
+                  )}&size=128`,
+                }}
+              />
+            )}
+
             <Text
               style={{
                 fontSize: 12,
@@ -68,7 +98,7 @@ const ProfilePage = () => {
           {/* Profile Details */}
           <View style={{ marginTop: 20, gap: 10, width: "280" }}>
             <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-              Alessandra Blair
+              {profile.name}
             </Text>
             <Text>
               Hello world I’m Alessandra Blair, I’m from Italy 🇮🇹 I love cooking
@@ -90,19 +120,19 @@ const ProfilePage = () => {
           >
             <View style={{ flex: 1, alignItems: "center" }}>
               <Text style={styles.statsText}>Recipe</Text>
-              <Text style={styles.statsValue}>3</Text>
+              <Text style={styles.statsValue}>{profile.totalRecipes}</Text>
             </View>
             <View style={{ flex: 1, alignItems: "center" }}>
               <Text style={styles.statsText}>Videos</Text>
-              <Text style={styles.statsValue}>13</Text>
+              <Text style={styles.statsValue}>{profile.totalVideos}</Text>
             </View>
             <View style={{ flex: 1, alignItems: "center" }}>
               <Text style={styles.statsText}>Followers</Text>
-              <Text style={styles.statsValue}>13K</Text>
+              <Text style={styles.statsValue}>{profile.followers}</Text>
             </View>
             <View style={{ flex: 1, alignItems: "center" }}>
               <Text style={styles.statsText}>Following</Text>
-              <Text style={styles.statsValue}>132</Text>
+              <Text style={styles.statsValue}>{profile.following}</Text>
             </View>
           </View>
 

@@ -1,17 +1,38 @@
-import React from "react";
-import { Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
-const CreatorCard = () => {
+const CreatorCard = ({ title, ImageURL, UserId }) => {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate("ProfilePage", { userId: UserId });
+  };
+  const uri = `https://api.dicebear.com/6.x/adventurer/png?seed=${encodeURIComponent(
+    title
+  )}&size=128`;
   return (
-    <View style={{ width: 80 }}>
-      <View
-        style={{
-          height: 80,
-          width: 80,
-          backgroundColor: "#C1C1C1",
-          borderRadius: 50,
-        }}
-      ></View>
+    <TouchableOpacity style={{ width: 80 }} onPress={handlePress}>
+      {ImageURL && (
+        <Image
+          source={{ uri: uri }}
+          style={{
+            width: 80,
+            height: 80,
+            borderRadius: 50,
+            backgroundColor: "#D9D9D9",
+          }}
+        />
+      )}
+      {!ImageURL && (
+        <View
+          style={{
+            height: 80,
+            width: 80,
+            backgroundColor: "#C1C1C1",
+            borderRadius: 50,
+          }}
+        />
+      )}
+
       <Text
         style={{
           marginTop: 5,
@@ -20,9 +41,9 @@ const CreatorCard = () => {
           color: "#797979",
         }}
       >
-        Adrianna curl
+        {title}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
