@@ -1,12 +1,12 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const Heading = ({ title, SeeAllVisible = false }) => {
+const Heading = ({ title, SeeAllVisible = false, onPress = () => {} }) => {
   return (
     <View style={styles.flex_row_space}>
       <Text style={styles.subText}>{title}</Text>
       {SeeAllVisible && (
-        <TouchableOpacity style={styles.seeAllContainer}>
+        <TouchableOpacity style={styles.seeAllContainer} onPress={onPress}>
           <Text style={styles.seeAllText}>See all</Text>
           <Image
             source={require("../../assets/arrow.svg")}

@@ -25,3 +25,21 @@ export async function getRandomMeals(limit = 5) {
 
   return meals;
 }
+
+export async function getRecipeById(id) {
+  try {
+    const res = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (!data.meals) {
+      console.log("No recipe found for id", id);
+      return null;
+    }
+    return data.meals[0];
+  } catch (err) {
+    console.error("Failed to fetch recipe:", err);
+    throw err;
+  }
+}

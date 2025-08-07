@@ -1,12 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import Layout from "../../components/Layout";
 import ThreeDot from "../../../assets/3dot.svg";
 import RecipeCard from "../../components/RecipeCard";
@@ -36,7 +29,9 @@ const ProfilePage = () => {
             justifyContent: "space-between",
           }}
         >
-          <Text style={styles.heading}>My Profile</Text>
+          <Text style={styles.heading}>
+            {userId ? "Creator " : "My "}Profile
+          </Text>
           <ThreeDot />
         </View>
         <ScrollView
@@ -91,14 +86,14 @@ const ProfilePage = () => {
                 borderRadius: 10,
               }}
             >
-              Edit profile
+              {userId ? "Follow" : "Edit Profile"}
             </Text>
           </View>
 
           {/* Profile Details */}
           <View style={{ marginTop: 20, gap: 10, width: "280" }}>
             <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-              {profile.name}
+              {profile.name || "Username"}
             </Text>
             <Text>
               Hello world I’m Alessandra Blair, I’m from Italy 🇮🇹 I love cooking
@@ -120,19 +115,19 @@ const ProfilePage = () => {
           >
             <View style={{ flex: 1, alignItems: "center" }}>
               <Text style={styles.statsText}>Recipe</Text>
-              <Text style={styles.statsValue}>{profile.totalRecipes}</Text>
+              <Text style={styles.statsValue}>{profile.totalRecipes || 0}</Text>
             </View>
             <View style={{ flex: 1, alignItems: "center" }}>
               <Text style={styles.statsText}>Videos</Text>
-              <Text style={styles.statsValue}>{profile.totalVideos}</Text>
+              <Text style={styles.statsValue}>{profile.totalVideos || 0}</Text>
             </View>
             <View style={{ flex: 1, alignItems: "center" }}>
               <Text style={styles.statsText}>Followers</Text>
-              <Text style={styles.statsValue}>{profile.followers}</Text>
+              <Text style={styles.statsValue}>{profile.followers || 0}</Text>
             </View>
             <View style={{ flex: 1, alignItems: "center" }}>
               <Text style={styles.statsText}>Following</Text>
-              <Text style={styles.statsValue}>{profile.following}</Text>
+              <Text style={styles.statsValue}>{profile.following || 0}</Text>
             </View>
           </View>
 

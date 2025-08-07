@@ -24,7 +24,11 @@ const TrendingNow = () => {
     >
       {Trending.map((item) => (
         <View style={{ width: 280 }} key={item.idMeal}>
-          <VideoCard ImageURL={item.strMealThumb} title={item.strMeal} />
+          <VideoCard
+            ImageURL={item.strMealThumb}
+            title={item.strMeal}
+            YTURL={item.strYoutube}
+          />
         </View>
       ))}
     </ScrollView>

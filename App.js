@@ -14,6 +14,8 @@ import CreateRecipe from "./screens/pages/CreateRecipe";
 import RecipeDetail from "./screens/pages/RecipeDetail";
 import { getActiveRouteName, navigationRef } from "./screens/Hooks/navigation";
 import WelcomeScreen from "./screens/components/WelcomeScreen";
+import Creators from "./screens/pages/Creators/Index";
+import Category from "./screens/pages/Category";
 
 export default function App() {
   const [currentRouteName, setCurrentRouteName] = useState("WelcomeScreen");
@@ -93,6 +95,29 @@ export default function App() {
         <Stack.Screen
           name="RecipeDetail"
           component={RecipeDetail}
+          options={{
+            title: "",
+            headerStyle: {
+              backgroundColor: "#F1F1F1",
+            },
+            headerShadowVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="Categories"
+          component={Category}
+          options={{
+            title: "",
+            headerStyle: {
+              backgroundColor: "#F1F1F1",
+            },
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="Creators"
+          component={Creators}
           options={{
             title: "",
             headerStyle: {

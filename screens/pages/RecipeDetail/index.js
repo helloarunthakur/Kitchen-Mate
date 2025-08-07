@@ -1,20 +1,67 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../components/Layout";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import StarGolden from "../../../assets/Star-golden.svg";
+import { useRoute } from "@react-navigation/native";
+import { getRecipeById } from "../../../utils/API";
 
 const RecipeDetail = () => {
+  const [recipe, setRecipe] = React.useState(null);
+  const [ingredients, setIngredients] = React.useState([]);
+  const route = useRoute();
+  const id = route.params?.id;
+
+  function extractIngredients(meal) {
+    const ingredients = [];
+
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = meal[`strIngredient${i}`]?.trim();
+      const measure = meal[`strMeasure${i}`]?.trim();
+
+      if (ingredient && ingredient !== "") {
+        ingredients.push({
+          ingredient,
+          measure: measure || "",
+        });
+      }
+    }
+
+    return ingredients;
+  }
+  const getRecipeDetailsFn = async () => {
+    getRecipeById(id).then((res) => {
+      setRecipe(res);
+      let ingredients = extractIngredients(res);
+      setIngredients(ingredients);
+    });
+  };
+  useEffect(() => {
+    getRecipeDetailsFn();
+  }, [id]);
   return (
     <Layout>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         {/* Heading */}
         <Text style={{ fontSize: 32, fontWeight: "bold", marginVertical: 10 }}>
-          How to make french toast
+          {recipe?.strMeal}
         </Text>
         {/* Recipe Card */}
-        <View
-          style={{ height: 200, backgroundColor: "#D9D9D9", borderRadius: 10 }}
-        ></View>
+        {recipe?.strMealThumb && (
+          <Image
+            source={{ uri: recipe?.strMealThumb }}
+            style={{ width: "100%", height: 200, borderRadius: 10 }}
+          />
+        )}
+        {!recipe?.strMealThumb && (
+          <View
+            style={{
+              height: 200,
+              backgroundColor: "#D9D9D9",
+              borderRadius: 10,
+            }}
+          ></View>
+        )}
+
         {/* Recipe Detail */}
         <View
           style={{
@@ -48,10 +95,8 @@ const RecipeDetail = () => {
               }}
             />
             <View>
-              <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                Roberta Anny
-              </Text>
-              <Text>Bali, Indonesia</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>Username</Text>
+              <Text>Location</Text>
             </View>
           </View>
           <View
@@ -67,7 +112,7 @@ const RecipeDetail = () => {
           </View>
         </View>
         {/* Ingredients */}
-        <View style={{ marginTop: 20 }}>
+        <View style={{ marginTop: 20, marginBottom: 20 }}>
           <View
             style={{
               flexDirection: "row",
@@ -78,40 +123,47 @@ const RecipeDetail = () => {
             <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 10 }}>
               Ingredients
             </Text>
-            <Text>5 Items</Text>
+            <Text>{ingredients?.length} Items</Text>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginTop: 10,
-              backgroundColor: "#D9D9D9",
-              padding: 10,
-              borderRadius: 10,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 10,
-              }}
-            >
+          <>
+            {ingredients.map((item, index) => (
               <View
                 style={{
-                  height: 40,
-                  width: 40,
-                  backgroundColor: "#C1C1C1",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginTop: 10,
+                  backgroundColor: "#D9D9D9",
+                  padding: 10,
                   borderRadius: 10,
                 }}
-              />
-              <Text style={{ fontWeight: "bold" }}>2 eggs</Text>
-            </View>
-            <Text style={{ fontWeight: "normal", color: "#C1C1C1" }}>200g</Text>
-          </View>
+                key={index * 43 + item?.ingredient}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <View
+                    style={{
+                      height: 40,
+                      width: 40,
+                      backgroundColor: "#C1C1C1",
+                      borderRadius: 10,
+                    }}
+                  />
+                  <Text style={{ fontWeight: "bold" }}>{item?.ingredient}</Text>
+                </View>
+                <Text style={{ fontWeight: "normal", color: "#C1C1C1" }}>
+                  {item?.measure}g
+                </Text>
+              </View>
+            ))}
+          </>
         </View>
-      </View>
+      </ScrollView>
     </Layout>
   );
 };
@@ -123,6 +175,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     marginTop: -30,
+    marginBottom: 20,
   },
   text: {
     fontSize: 32,

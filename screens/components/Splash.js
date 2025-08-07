@@ -29,7 +29,11 @@ export default function Splash() {
 
   return (
     <View className="flex items-center justify-center h-screen w-screen bg-orange-500 ">
-      <StatusBar barStyle={"default"} animated />
+      <StatusBar
+        barStyle={"light-content"}
+        animated
+        backgroundColor={"#f97316"}
+      />
       <Image source={splash} height={20} width={20} />
     </View>
   );

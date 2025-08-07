@@ -1,11 +1,14 @@
-import { Image, Text, View } from "react-native";
+import { Image, Linking, Text, TouchableOpacity, View } from "react-native";
 import Star from "../../assets/Star.svg";
 import Wishlist from "../../assets/wishlist.svg";
 import Playbtn from "../../assets/playbtn.svg";
 
-const VideoCard = ({ ImageURL, title }) => {
+const VideoCard = ({ ImageURL, title, YTURL }) => {
   return (
-    <View style={{ height: 230 }}>
+    <TouchableOpacity
+      style={{ height: 230 }}
+      onPress={() => Linking.openURL(YTURL)}
+    >
       <View style={{ position: "relative" }}>
         <Image
           source={
@@ -85,7 +88,7 @@ const VideoCard = ({ ImageURL, title }) => {
           <Text style={{ color: "#A9A9A9" }}>By xyz</Text>
         </View> */}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -3,27 +3,36 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Wishlist from "../../assets/wishlist.svg";
 import { useNavigation } from "@react-navigation/native";
 
-const CategoryCard = ({ title, ImageURL }) => {
+const CategoryCard = ({ title, ImageURL, id }) => {
   const navigatation = useNavigation();
   const handlePress = () => {
-    navigatation.navigate("RecipeDetail");
+    navigatation.navigate("RecipeDetail", { id: id });
   };
   return (
     <TouchableOpacity
       style={{
         flex: 1,
         padding: 16,
-        backgroundColor: "#D9D9D9",
-        height: 200,
+        backgroundColor: "#E1E1E1",
+        height: 150,
         width: 150,
         borderRadius: 10,
-        justifyContent: "center",
+        justifyContent: "flex-end",
         alignItems: "center",
       }}
       onPress={handlePress}
     >
       <View>
-        <Text style={{ fontSize: 16, fontWeight: "bold", textAlign: "center" }}>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "bold",
+            textAlign: "center",
+            color: "#303030",
+          }}
+          numberOfLines={2}
+          ellipsizeMode="tail"
+        >
           {title}
         </Text>
       </View>
@@ -54,7 +63,7 @@ const CategoryCard = ({ title, ImageURL }) => {
         />
       )}
 
-      <View
+      {/* <View
         style={{
           position: "absolute",
           bottom: 10,
@@ -71,7 +80,7 @@ const CategoryCard = ({ title, ImageURL }) => {
         <View style={styles.whislist}>
           <Wishlist />
         </View>
-      </View>
+      </View> */}
     </TouchableOpacity>
   );
 };

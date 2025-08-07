@@ -18,12 +18,14 @@ import { categoriesList } from "../../../utils/DB";
 import TrendingNow from "../../components/TrendingNow";
 import CategorySection from "../../components/CategorySection";
 import { CreatorsFakeDB } from "../../../utils/Creators";
+import { useNavigation } from "@react-navigation/native";
 
 const Home = () => {
+  const navigatation = useNavigation();
   return (
     <Layout>
       <View style={styles.container}>
-        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+        <StatusBar barStyle="dark-content" backgroundColor="#D9D9D9" />
         <View>
           <Text style={styles.text}>Find best recipes</Text>
           <Text style={styles.text}>for cooking</Text>
@@ -45,6 +47,7 @@ const Home = () => {
             <Search style={{ marginLeft: 10 }} />
             <TextInput
               placeholder="Search recipes"
+              placeholderTextColor={"#C1C1C1"}
               style={styles.search}
               value=""
             />
@@ -57,7 +60,11 @@ const Home = () => {
             <TrendingNow />
           </View>
 
-          <Heading title="Popular category" SeeAllVisible={false} />
+          <Heading
+            title="Popular category"
+            SeeAllVisible={true}
+            onPress={() => navigatation.navigate("Categories")}
+          />
           <CategorySection />
 
           {/* <View>
@@ -75,7 +82,11 @@ const Home = () => {
           </View> */}
 
           <View style={{ marginBottom: 30, marginTop: 10 }}>
-            <Heading title="Popular creator" SeeAllVisible={true} />
+            <Heading
+              title="Popular creator"
+              SeeAllVisible={true}
+              onPress={() => navigatation.navigate("Creators")}
+            />
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}

@@ -58,6 +58,7 @@ const CategorySection = () => {
               key={item.idMeal}
               ImageURL={item.strMealThumb}
               title={item.strMeal}
+              id={item.idMeal}
             />
           ))}
         </ScrollView>

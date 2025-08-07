@@ -46,6 +46,7 @@ const CreateRecipe = () => {
         <View style={{ marginTop: 20, marginBottom: 20 }}>
           <TextInput
             placeholder="Recipe Name"
+            placeholderTextColor={"#C1C1C1"}
             style={{
               height: 45,
               borderColor: "red",
@@ -82,6 +83,7 @@ const CreateRecipe = () => {
           >
             <TextInput
               placeholder="Item Name"
+              placeholderTextColor={"#C1C1C1"}
               style={{
                 borderColor: "#D9D9D9",
                 borderWidth: 1,
@@ -113,6 +115,7 @@ const CreateRecipe = () => {
           >
             <TextInput
               placeholder="Item Name"
+              placeholderTextColor={"#C1C1C1"}
               style={{
                 borderColor: "#D9D9D9",
                 borderWidth: 1,
@@ -124,6 +127,7 @@ const CreateRecipe = () => {
             />
             <TextInput
               placeholder="Quantity"
+              placeholderTextColor={"#C1C1C1"}
               style={{
                 borderColor: "#D9D9D9",
                 borderWidth: 1,
