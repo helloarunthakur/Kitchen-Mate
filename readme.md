@@ -33,7 +33,7 @@
 
 You can directly download the latest version of **Kitchen Mate** for Android here:  
 
-[📦 **Download APK**](https://your-apk-link-here.com)  
+📦 APK Download:[Click Here](https://example.com/old.apk)
 
 *(Note: Enable "Install from Unknown Sources" in your device settings to install the APK.)*
 
