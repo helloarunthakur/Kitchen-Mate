@@ -21,12 +21,12 @@ jobs:
       - name: Get latest APK link
         id: apk
         run: |
-          APK_URL=$(eas build:list --platform android --limit 1 --status finished --json | jq -r '.builds[0].artifacts.buildUrl')
-          if [ -z "$APK_URL" ] || [ "$APK_URL" = "null" ]; then
-            echo "No APK URL found!"
-            exit 1
-          fi
-          echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
+          APK_URL=$(eas build:list --platform android --limit 1 --status finished --json --non-interactive | jq -r '.builds[0].artifacts.buildUrl')
+            if [ -z "$APK_URL" ] || [ "$APK_URL" = "null" ]; then
+          echo "No APK URL found!"
+              exit 1
+            fi
+              echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
         env:
           EXPO_TOKEN: ${{ secrets.EAS_TOKEN }}
 
