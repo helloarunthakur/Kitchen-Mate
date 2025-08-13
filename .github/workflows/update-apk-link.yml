@@ -7,21 +7,31 @@ on:
 
 jobs:
   update-apk:
+    # Prevents workflow from running on commits made by the GitHub Actions bot itself
+    if: github.actor != 'github-actions'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Install EAS CLI
-        run: npm install -g eas-cli
+      - name: Install dependencies
+        run: |
+          npm install -g eas-cli
+          sudo apt-get install -y jq
 
       - name: Authenticate with EAS
-        run: eas login --token ${{ secrets.EAS_TOKEN }}
+        run: eas whoami || eas login --non-interactive --token=$EAS_TOKEN
+        env:
+          EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
 
       - name: Get latest APK link
         id: apk
         run: |
-          APK_URL=$(eas build:list --platform android --limit 1 --status finished --json | jq -r '.[0].artifacts.buildUrl')
+          APK_URL=$(eas build:list --platform android --limit 1 --status finished --json | jq -r '.builds[0].artifacts.buildUrl')
+          if [ -z "$APK_URL" ] || [ "$APK_URL" = "null" ]; then
+            echo "No APK URL found!"
+            exit 1
+          fi
           echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
 
       - name: Update README
@@ -33,5 +43,5 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add README.md
-          git commit -m "Update APK link"
+          git commit -m "Update APK link [skip ci]" || echo "No changes to commit"
           git push
