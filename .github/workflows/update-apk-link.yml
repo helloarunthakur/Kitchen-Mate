@@ -7,7 +7,6 @@ on:
 
 jobs:
   update-apk:
-    # Prevents workflow from running on commits made by the GitHub Actions bot itself
     if: github.actor != 'github-actions'
     runs-on: ubuntu-latest
     steps:
@@ -19,11 +18,6 @@ jobs:
           npm install -g eas-cli
           sudo apt-get install -y jq
 
-      - name: Authenticate with EAS
-        run: eas whoami || eas login --non-interactive --token=$EAS_TOKEN
-        env:
-          EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
-
       - name: Get latest APK link
         id: apk
         run: |
@@ -33,6 +27,8 @@ jobs:
             exit 1
           fi
           echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
+        env:
+          EXPO_TOKEN: ${{ secrets.EAS_TOKEN }}
 
       - name: Update README
         run: |
