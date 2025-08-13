@@ -1,0 +1,37 @@
+name: Update APK Link
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Authenticate with EAS
+        run: eas login --token ${{ secrets.EAS_TOKEN }}
+
+      - name: Get latest APK link
+        id: apk
+        run: |
+          APK_URL=$(eas build:list --platform android --limit 1 --status finished --json | jq -r '.[0].artifacts.buildUrl')
+          echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
+
+      - name: Update README
+        run: |
+          sed -i "s|APK Download: .*|APK Download: [Click Here](${{ steps.apk.outputs.apk_url }})|" README.md
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add README.md
+          git commit -m "Update APK link"
+          git push
