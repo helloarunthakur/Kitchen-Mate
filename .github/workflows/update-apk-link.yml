@@ -3,7 +3,7 @@ name: Update APK Link
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   update-apk:
