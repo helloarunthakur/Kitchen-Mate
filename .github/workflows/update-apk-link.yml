@@ -32,21 +32,18 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EAS_TOKEN }}
 
-      - name: Update README if needed
+      - name: Update README
         run: |
-          CURRENT_LINK=$(grep -oP '(?<=APK Download: \[Click Here\]\().*(?=\))' readme.md || echo "")
-          if [ "$CURRENT_LINK" != "${{ steps.apk.outputs.apk_url }}" ]; then
-            echo "Updating APK link..."
-            if grep -q "APK Download:" readme.md; then
-              sed -i "s|APK Download: .*|APK Download: [Click Here](${{ steps.apk.outputs.apk_url }})|" readme.md
-            else
-              echo -e "\nAPK Download: [Click Here](${{ steps.apk.outputs.apk_url }})" >> readme.md
-            fi
-            git config --global user.name "github-actions"
-            git config --global user.email "github-actions@github.com"
-            git add readme.md
-            git commit -m "Update APK link [skip ci]"
-            git push
+          if grep -q "APK Download:" readme.md; then
+            sed -i "s|APK Download: .*|APK Download: [Click Here](${{ steps.apk.outputs.apk_url }})|" readme.md
           else
-            echo "APK link is already up to date, skipping commit."
+            echo -e "\nAPK Download: [Click Here](${{ steps.apk.outputs.apk_url }})" >> readme.md
           fi
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add readme.md
+          git commit -m "Update APK link [skip ci]" || true
+          git push
