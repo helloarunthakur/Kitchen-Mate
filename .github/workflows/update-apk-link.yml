@@ -33,7 +33,7 @@ jobs:
 
       - name: Update README
         run: |
-          sed -i "s|APK Download: .*|APK Download: [Click Here](${{ steps.apk.outputs.apk_url }})|" README.md
+          sed -i "s|APK Download: .*|APK Download: [Click Here](${{ steps.apk.outputs.apk_url }})|" readme.md
 
       - name: Commit changes
         run: |
