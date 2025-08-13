@@ -29,6 +29,14 @@
 
 ---
 
+## 📥 APK Download
+
+You can directly download the latest version of **Kitchen Mate** for Android here:  
+
+[📦 **Download APK**](https://your-apk-link-here.com)  
+
+*(Note: Enable "Install from Unknown Sources" in your device settings to install the APK.)*
+
 ---
 
 ## 🔧 Installation
@@ -40,4 +48,3 @@ git clone https://github.com/helloarunthakur/kitchen-mate.git
 cd kitchen-mate
 npm install
 npm start
-```
